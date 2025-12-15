@@ -370,7 +370,25 @@ table td, table th { color: var(--text-color); }
 
 /* Mobile Adjustments */
 @media (max-width: 600px) {
-    .container { width: 100%; border-radius: 0; box-shadow: none; margin-top: 0; min-height: calc(100vh - 60px); }
-    .navbar { position: sticky; top: 0; z-index: 100; }
-    .tech-info-grid { grid-template-columns: 1fr; } /* Stack tech details on mobile */
+    .container { 
+        width: 90%;          /* Changed from 100% to 90% so it doesn't touch edges */
+        max-width: 100%;     /* Ensure it doesn't overflow */
+        border-radius: 12px; /* Keep rounded corners on mobile */
+        box-shadow: none; 
+        margin-top: 20px;    /* Add some space from the navbar */
+        min-height: auto;    /* Allow height to fit content */
+        padding: 1.5rem;     /* Slightly less padding inside */
+    }
+    
+    .navbar { 
+        position: sticky; 
+        top: 0; 
+        z-index: 100; 
+        padding: 15px 15px; /* Ensure navbar also has breathing room */
+    }
+
+    .tech-info-grid { 
+        grid-template-columns: 1fr; /* Stack tech details on mobile */
+    }
 }
+

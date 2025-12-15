@@ -9,22 +9,24 @@
 <body>
 
     <!-- NAVBAR -->
-    <header class="navbar">
+<header class="navbar">
+    <a href="index.html" style="text-decoration: none; color: inherit;"> <!-- Add this link -->
         <div class="logo-group">
             <span class="logo-icon">🛡️</span> 
             <span class="logo-text">Spam Detect PH</span>
         </div>
-        <div class="nav-links">
-            <a href="index.html" class="nav-item">Scanner</a>
-            <button id="themeToggle" class="nav-item theme-btn" onclick="toggleTheme()">🌙</button>
-        </div>
-    </header>
+    </a>
+    <div class="nav-links">
+        <a href="index.html" class="nav-item">Scanner</a>
+        <button id="themeToggle" class="nav-item theme-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+</header>
 
     <main class="container" style="max-width: 800px; text-align: left;">
         
         <!-- INTRO -->
         <h1 class="title">About the Project</h1>
-        <p><strong>Spam Detect PH</strong> is a Machine Learning-powered web application designed to combat the rising tide of SMS spam, scams, and smishing attacks in the Philippines. It combines traditional Neural Networks with modern Generative AI to provide deep insights into local SMS threats.</p>
+        <p><strong>Spam Detect PH</strong> is a Machine Learning-powered web application designed to help with the rising tide of SMS spam, scams, and smishing attacks in the Philippines. It uses traditional Neural Networks with a bonus modern GenAI feature to provide deep insights into local SMS threats.</p>
 
         <hr class="divider">
 
@@ -35,7 +37,7 @@
                 <h3>Frontend</h3>
                 <ul style="padding-left: 20px;">
                     <li>Vanilla JavaScript & HTML5</li>
-                    <li>OCR via <strong>Tesseract.js</strong> (Client-side)</li>
+                    <li>OCR via <strong>Tesseract.js</strong> (Client-side, does not store Images)</li>
                     <li>Hosted on <strong>Vercel</strong></li>
                 </ul>
             </div>
@@ -49,6 +51,15 @@
                 </ul>
             </div>
         </div>
+
+        <hr class="divider">
+
+        <!-- DATASET ATTRIBUTION -->
+        <h2>📊 Dataset Source</h2>
+        <p>This model was trained using the <strong>Tagalog SMS Dataset</strong> provided by <em>onzero0</em> on Kaggle. This dataset was crucial for ensuring the model understands the specific nuances of "Taglish" (Tagalog-English code-switching) commonly used in The Philippines.</p>
+        <p>
+            🔗 <a href="https://www.kaggle.com/datasets/onzero0/tagalog-sms" target="_blank" style="color: var(--primary); font-weight: bold;">View Dataset on Kaggle</a>
+        </p>
 
         <hr class="divider">
 
@@ -71,7 +82,7 @@
         <h2>🔍 Explainable AI (LIME)</h2>
         <p>To ensure transparency ("White Box AI"), we utilized <strong>LIME (Local Interpretable Model-agnostic Explanations)</strong>. This technique highlights exactly which words in a message triggered the spam detection.</p>
         
-        <!-- CHART 3: LIME -->
+        <!-- CHART 2: LIME -->
         <div class="image-box">
             <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 2. LIME Analysis of Spam vs. Safe Messages</p>
             <img src="lime_analysis.jpg" alt="LIME visualization showing weighted words" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
@@ -79,10 +90,11 @@
 
         <hr class="divider">
 
+
         <!-- AUTHOR -->
         <h2>👨‍💻 Developer & Purpose</h2>
-        <p>Developed by <strong>Lyndon R</strong> as a Learning Project.</p>
-        <p>This project serves as a comprehensive learning experience in an AI / ML Development lifecycle - covering data cleaning, model training, API development, and cloud deployment. It also demonstrates a practical, scalable solution to a real-world cybersecurity problem.</p>
+        <p>Developed by <strong>Lyndon R.</strong> as a Learning Project.</p>
+        <p>This project serves as a comprehensive learning experience in the AI / ML Development lifecycle - covering data cleaning, model training, API development, and cloud deployment. It aims to demonstrate a practical, scalable solution to a real-world cybersecurity problem.</p>
 
         <br>
         <div style="text-align: center;">
