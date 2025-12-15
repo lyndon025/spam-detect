@@ -404,15 +404,47 @@ table td, table th { color: var(--text-color); }
 }
 
 
-.logo-icon {
-    width: 32px;       /* Sets the logo size */
-    height: 32px;      /* Keeps it square */
-    margin-right: 8px; /* Adds space between logo and text */
-    vertical-align: middle; /* Aligns it nicely with the text */
+/* Define the animation */
+@keyframes logoPop {
+    0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+    80% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); }
 }
+
+/* Apply it to the logo */
+.logo-icon {
+    /* Existing styles... */
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    
+    /* NEW ANIMATION LINE */
+    animation: logoPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
 
 /* Optional: Ensure the text sits in the middle too */
 .logo-text {
-    display: inline-block;
-    vertical-align: middle;
+    /* Keep existing styles */
+    opacity: 0; /* Start invisible */
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.3s; /* Wait 0.3s before starting */
+}
+
+
+/* Define the animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px); /* Starts 30px lower */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);    /* Ends in original position */
+    }
+}
+
+/* Apply to main container or hero section */
+.hero, .container {
+    animation: fadeInUp 1s ease-out forwards;
 }
