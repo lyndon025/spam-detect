@@ -448,4 +448,3 @@ table td, table th { color: var(--text-color); }
 .hero, .container {
     animation: fadeInUp 1s ease-out forwards;
 }
-
