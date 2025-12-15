@@ -448,3 +448,56 @@ table td, table th { color: var(--text-color); }
 .hero, .container {
     animation: fadeInUp 1s ease-out forwards;
 }
+
+
+/* =========================================
+   DARK MODE SUPPORT (System Detection)
+   ========================================= */
+@media (prefers-color-scheme: dark) {
+    
+    /* 1. Dark Backgrounds & Light Text */
+    body {
+        background-color: #121212; /* Very dark gray (better than pure black) */
+        color: #ffffff;
+    }
+
+    /* 2. Update the Navbar */
+    .navbar {
+        background-color: #1e1e1e;
+        border-bottom: 1px solid #333;
+    }
+    
+    .nav-links a {
+        color: #e0e0e0;
+    }
+    
+    .logo-text {
+        color: #ffffff;
+    }
+
+    /* 3. Update Cards / Containers */
+    .container, .card, .input-box {
+        background-color: #1e1e1e;
+        color: #fff;
+        border-color: #444; /* Darker borders */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Stronger shadows for dark mode */
+    }
+
+    /* 4. Update Inputs */
+    input, textarea, select {
+        background-color: #2d2d2d;
+        color: #fff;
+        border: 1px solid #444;
+    }
+    
+    /* Placeholder text needs to be lighter */
+    ::placeholder {
+        color: #bbb;
+    }
+
+    /* 5. Update Footer */
+    footer {
+        background-color: #1a1a1a;
+        color: #aaa;
+    }
+}
