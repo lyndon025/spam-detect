@@ -1,28 +1,71 @@
-/* VARIABLES (For Dark Mode) */
+/* =========================================
+   1. VARIABLES & THEME (Light/Dark Mode)
+   ========================================= */
 :root {
+    /* LIGHT MODE DEFAULTS */
     --bg-color: #f0f2f5;
     --card-bg: #ffffff;
-    --text-color: #333;
-    --border-color: #ddd;
-    --primary: #007bff;
+    --text-color: #333333;
+    --border-color: #dddddd;
+    --primary: #007bff;        /* Blue */
     --primary-hover: #0056b3;
-    --action-btn: #6f42c1; /* Purple for Analyze */
+    --action-btn: #6f42c1;     /* Purple for Analyze */
     --action-hover: #5a32a3;
     --nav-bg: #ffffff;
     --nav-shadow: rgba(0,0,0,0.1);
+    
+    /* Status Colors */
+    --safe-bg: #d4edda;
+    --safe-text: #155724;
+    --safe-border: #c3e6cb;
+    
+    --danger-bg: #f8d7da;
+    --danger-text: #721c24;
+    --danger-border: #f5c6cb;
+    
+    --caution-bg: #fff3cd;
+    --caution-text: #856404;
+    --caution-border: #ffeeba;
+
+    --ai-box-bg: #e8f0fe;
+    --ai-box-text: #1a73e8;
+    --ai-box-border: #1a73e8;
 }
 
 [data-theme="dark"] {
+    /* DARK MODE OVERRIDES */
     --bg-color: #18191a;
     --card-bg: #242526;
     --text-color: #e4e6eb;
     --border-color: #3e4042;
     --primary: #4595eb;
+    --primary-hover: #357abd;
+    --action-btn: #8a63d2;
+    --action-hover: #6f42c1;
     --nav-bg: #242526;
     --nav-shadow: rgba(255,255,255,0.1);
+    
+    /* Dark Mode Status Colors (Muted for readability) */
+    --safe-bg: #1e3a29;
+    --safe-text: #75b798;
+    --safe-border: #2b543a;
+    
+    --danger-bg: #4a1e23;
+    --danger-text: #ea868f;
+    --danger-border: #6a2e35;
+    
+    --caution-bg: #423818;
+    --caution-text: #ffda6a;
+    --caution-border: #665624;
+
+    --ai-box-bg: #1c2b42;
+    --ai-box-text: #8ab4f8;
+    --ai-box-border: #4285f4;
 }
 
-/* BASE STYLES */
+/* =========================================
+   2. BASE STYLES
+   ========================================= */
 body {
     font-family: 'Segoe UI', sans-serif;
     background-color: var(--bg-color);
@@ -32,9 +75,12 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* NAVBAR (Fixed Top) */
+/* =========================================
+   3. NAVBAR (Fixed Top)
+   ========================================= */
 .navbar {
     width: 100%;
     background: var(--nav-bg);
@@ -44,6 +90,9 @@ body {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .logo-group {
@@ -52,6 +101,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: var(--text-color);
 }
 
 .nav-links {
@@ -65,6 +115,11 @@ body {
     color: var(--text-color);
     font-weight: 500;
     cursor: pointer;
+    transition: color 0.2s;
+}
+
+.nav-item:hover {
+    color: var(--primary);
 }
 
 .theme-btn {
@@ -74,7 +129,9 @@ body {
     padding: 5px;
 }
 
-/* MAIN CARD */
+/* =========================================
+   4. MAIN CONTAINER & CARDS
+   ========================================= */
 .container {
     background: var(--card-bg);
     padding: 2rem;
@@ -85,9 +142,15 @@ body {
     margin-top: 40px;
     margin-bottom: 40px;
     text-align: center;
+    transition: background-color 0.3s ease;
 }
 
-/* TABS */
+.title { margin-top: 0; font-size: 28px; }
+.subtitle { color: #888; margin-bottom: 25px; }
+
+/* =========================================
+   5. TABS & INPUTS
+   ========================================= */
 .tabs {
     display: flex;
     gap: 10px;
@@ -103,6 +166,7 @@ body {
     cursor: pointer;
     color: var(--text-color);
     font-weight: 600;
+    transition: all 0.2s;
 }
 
 .tab-btn.active {
@@ -111,7 +175,6 @@ body {
     border-color: var(--primary);
 }
 
-/* INPUTS */
 textarea {
     width: 100%;
     height: 120px;
@@ -123,15 +186,17 @@ textarea {
     resize: none;
     background: var(--bg-color);
     color: var(--text-color);
+    margin-bottom: 10px;
 }
 
-/* UPLOAD AREA (Improved) */
+/* Upload Area */
 .upload-area {
     border: 2px dashed var(--border-color);
     border-radius: 12px;
     padding: 40px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
+    background: var(--bg-color);
 }
 
 .upload-area:hover {
@@ -141,8 +206,11 @@ textarea {
 
 .upload-icon { font-size: 40px; margin-bottom: 10px; }
 .small-text { font-size: 0.9rem; color: #888; margin-top: 5px; }
+.status-text { margin-top: 10px; font-weight: bold; color: var(--primary); }
 
-/* ANALYZE BUTTON (Distinct) */
+/* =========================================
+   6. BUTTONS
+   ========================================= */
 #analyzeBtn {
     background-color: var(--action-btn);
     color: white;
@@ -155,38 +223,116 @@ textarea {
     font-weight: bold;
     margin-top: 20px;
     box-shadow: 0 4px 15px rgba(111, 66, 193, 0.3);
-    transition: transform 0.1s;
+    transition: transform 0.1s, background-color 0.2s;
 }
 
+#analyzeBtn:hover { background-color: var(--action-hover); }
 #analyzeBtn:active { transform: scale(0.98); }
 
-/* HELPERS */
-.hidden { display: none !important; }
+.secondary-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: background 0.2s;
+}
 
-/* RESULTS */
+.secondary-btn:hover { background: var(--nav-bg); }
+
+/* =========================================
+   7. RESULTS & ALERTS
+   ========================================= */
 .result-card {
     margin-top: 20px;
     padding: 20px;
     border-radius: 12px;
     text-align: left;
-    color: #333; /* Always dark text for readability on colored bg */
+    display: none; /* Hidden by default */
 }
 
-/* Traffic Light Colors */
-.safe { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-.danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-.caution { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+.result-card.visible { display: block; }
 
+.result-card h2 { margin-top: 0; font-size: 18px; margin-bottom: 5px; }
 .status-icon { font-size: 30px; float: right; }
-.confidence-text { font-size: 12px; opacity: 0.8; margin-top: 10px; font-weight: bold; }
+.confidence-text { font-size: 12px; opacity: 0.8; margin-top: 10px; font-weight: bold; text-transform: uppercase; }
 
-/* MOBILE FIX */
-@media (max-width: 600px) {
-    .container { width: 100%; border-radius: 0; box-shadow: none; margin-top: 0; min-height: calc(100vh - 60px); }
-    .navbar { position: sticky; top: 0; z-index: 100; }
+/* Dynamic Status Colors */
+.safe { background: var(--safe-bg); color: var(--safe-text); border: 1px solid var(--safe-border); }
+.danger { background: var(--danger-bg); color: var(--danger-text); border: 1px solid var(--danger-border); }
+.caution { background: var(--caution-bg); color: var(--caution-text); border: 1px solid var(--caution-border); }
+
+/* AI Analysis Box */
+.ai-box {
+    background: var(--ai-box-bg);
+    color: var(--ai-box-text);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    border-left: 4px solid var(--ai-box-border);
+    text-align: left;
+    margin-top: 10px;
+    line-height: 1.5;
 }
 
-/* LIME CHART STYLES */
+#aiText strong { color: var(--ai-box-border); }
+
+/* =========================================
+   8. TECHNICAL DETAILS DROPDOWN
+   ========================================= */
+.tech-details {
+    margin-top: 20px;
+    border: none;
+    background: transparent;
+}
+
+/* The "Button" looking Summary */
+.tech-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+    list-style: none; 
+    transition: background 0.2s;
+    box-sizing: border-box;
+}
+
+.tech-btn::-webkit-details-marker { display: none; }
+.tech-btn:hover { background: var(--nav-bg); }
+
+/* The Hidden Content */
+.tech-content {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    text-align: left;
+    color: var(--text-color);
+}
+
+.tech-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.tech-info-grid p { margin: 2px 0; }
+
+/* LIME Charts */
 .lime-container {
     margin-top: 10px;
     display: flex;
@@ -194,118 +340,37 @@ textarea {
     gap: 8px;
 }
 
-.lime-row {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
+.lime-row { display: flex; align-items: center; font-size: 14px; }
+.lime-label { width: 80px; text-align: right; margin-right: 10px; font-weight: bold; opacity: 0.8; }
+.lime-bar-container { flex-grow: 1; background: #eee; height: 10px; border-radius: 5px; overflow: hidden; }
+.lime-bar { height: 100%; }
+.danger-bar { background-color: #dc3545; }
+.safe-bar { background-color: #28a745; }
+
+/* =========================================
+   9. ABOUT PAGE SPECIFICS
+   ========================================= */
+.divider {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+    margin: 30px 0;
 }
 
-.lime-label {
-    width: 80px;
-    text-align: right;
-    margin-right: 10px;
-    font-weight: bold;
-    color: #555;
-}
+h2 { color: var(--primary); margin-bottom: 15px; }
+h3 { margin-top: 0; color: var(--text-color); }
+ul li { margin-bottom: 8px; color: var(--text-color); }
 
-.lime-bar-container {
-    flex-grow: 1;
-    background: #eee;
-    height: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-}
+table td, table th { color: var(--text-color); }
 
-.lime-bar {
-    height: 100%;
-}
+/* =========================================
+   10. UTILITIES
+   ========================================= */
+.hidden { display: none !important; }
 
-.danger-bar { background-color: #dc3545; } /* Red for Spam weights */
-.safe-bar { background-color: #28a745; }   /* Green for Safe weights */
-
-/* AI BOX */
-.ai-box {
-    background: #e8f0fe;
-    color: #1a73e8;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 14px;
-    border-left: 4px solid #1a73e8;
-    text-align: left;
-    margin-top: 10px;
-}
-
-.secondary-btn {
-    width: 100%;
-    padding: 10px;
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #444;
-}
-.secondary-btn:hover { background: #e2e6ea; }
-
-/* CONTAINER for the whole section (Hidden by default via JS) */
-.tech-details {
-    margin-top: 20px;
-    /* Remove border/bg from container, so it looks like just a button initially */
-    border: none;
-    background: transparent;
-}
-
-/* THE BUTTON (Summary) */
-.tech-btn {
-    width: 100%;
-    padding: 12px;
-    background: #f8f9fa; /* Light Gray */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-    color: #555;
-    text-align: center;
-    list-style: none; /* Hide default triangle */
-    transition: background 0.2s;
-    box-sizing: border-box; /* Ensure padding doesn't widen it */
-}
-
-/* Hide default marker (Safari/Chrome) */
-.tech-btn::-webkit-details-marker {
-    display: none;
-}
-
-.tech-btn:hover {
-    background: #e2e6ea;
-    color: #333;
-}
-
-/* THE CONTENT (Hidden until clicked) */
-.tech-content {
-    margin-top: 15px; /* Spacing between button and content */
-    padding: 15px;
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    text-align: left;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Optional: Fade in animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-#aiText {
-    line-height: 1.6; /* Better readability */
-    color: #333;
-}
-
-#aiText strong {
-    color: #1a73e8; /* Match the Google Blue theme */
-    font-weight: 700;
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    .container { width: 100%; border-radius: 0; box-shadow: none; margin-top: 0; min-height: calc(100vh - 60px); }
+    .navbar { position: sticky; top: 0; z-index: 100; }
+    .tech-info-grid { grid-template-columns: 1fr; } /* Stack tech details on mobile */
 }

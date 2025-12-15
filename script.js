@@ -174,6 +174,10 @@ function renderLimeChart(features) {
     const container = document.getElementById("limeChart");
     container.innerHTML = ""; // Clear old
 
+    // 1. Find the maximum absolute weight to normalize against
+    // This ensures the biggest bar is always full width
+    const maxWeight = Math.max(...features.map(f => Math.abs(f[1])));
+
     features.forEach(([word, weight]) => {
         const row = document.createElement("div");
         row.className = "lime-row";
@@ -186,14 +190,21 @@ function renderLimeChart(features) {
         barContainer.className = "lime-bar-container";
 
         const bar = document.createElement("div");
-        // Color logic: Positive weight = Spammy (Red), Negative = Safe (Green)
-        // Adjust this logic based on your specific model classes (usually Class 1 is Spam)
+        
+        // Color Logic
         const isSpamIndicator = weight > 0; 
         bar.className = isSpamIndicator ? "lime-bar danger-bar" : "lime-bar safe-bar";
         
-        // Width scaling (make it visible)
-        const width = Math.min(Math.abs(weight) * 100 * 5, 100); 
-        bar.style.width = `${width}%`;
+        // Scaling Logic (Relative to max weight)
+        // If weight is 0.01 and max is 0.02, width will be 50%
+        // We add a minimum of 5% so tiny bars are still visible
+        let widthPercentage = (Math.abs(weight) / maxWeight) * 100;
+        if (widthPercentage < 5) widthPercentage = 5; // Minimum visibility
+        
+        bar.style.width = `${widthPercentage}%`;
+
+        // Optional: Tooltip on hover to see exact value
+        bar.title = `Weight: ${weight.toFixed(4)}`;
 
         barContainer.appendChild(bar);
         row.appendChild(label);
@@ -201,6 +212,7 @@ function renderLimeChart(features) {
         container.appendChild(row);
     });
 }
+
 
 function parseMarkdown(text) {
     if (!text) return "";

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Spam Detect PH</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="logo-group">
+            <span class="logo-icon">🛡️</span> 
+            <span class="logo-text">Spam Detect PH</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Scanner</a>
+            <button id="themeToggle" class="nav-item theme-btn" onclick="toggleTheme()">🌙</button>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 800px; text-align: left;">
+        
+        <!-- INTRO -->
+        <h1 class="title">About the Project</h1>
+        <p><strong>Spam Detect PH</strong> is a Machine Learning-powered web application designed to combat the rising tide of SMS spam, scams, and smishing attacks in the Philippines. It combines traditional Neural Networks with modern Generative AI to provide deep insights into local SMS threats.</p>
+
+        <hr class="divider">
+
+        <!-- TECH STACK -->
+        <h2>🛠️ Technical Architecture</h2>
+        <div class="tech-info-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <h3>Frontend</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Vanilla JavaScript & HTML5</li>
+                    <li>OCR via <strong>Tesseract.js</strong> (Client-side)</li>
+                    <li>Hosted on <strong>Vercel</strong></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Backend</h3>
+                <ul style="padding-left: 20px;">
+                    <li>Python (Flask API)</li>
+                    <li><strong>Scikit-Learn</strong> (MLP Inference)</li>
+                    <li><strong>Google Gemini 2.5 Flash</strong> (Generative AI)</li>
+                    <li>Hosted on <strong>Render</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- ML MODEL & EXPERIMENTS -->
+        <h2>🧠 Model Selection & Experiments</h2>
+        <p>The core system runs on a <strong>Multi-Layer Perceptron (MLP)</strong>. We selected this model after extensive benchmarking against 8 other algorithms (including Random Forest, SVM, and Naive Bayes) and advanced Transformers (DistilBERT).</p>
+
+        <!-- CHART 1: MODEL COMPARISON -->
+        <div class="image-box">
+            <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 1. Model Accuracy Leaderboard</p>
+            <img src="model_comparison.jpg" alt="Bar chart showing MLP having highest accuracy" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
+        </div>
+
+        <p><strong>Why not DistilBERT?</strong></p>
+        <p>While we trained a DistilBERT (Transformer) model, we found that <strong>MLP (98.2%)</strong> offered comparable accuracy to DistilBERT (~95%) but with significantly faster inference times and lower computational cost, making it ideal for a free web deployment.</p>
+
+        <hr class="divider">
+
+        <!-- EXPLAINABILITY -->
+        <h2>🔍 Explainable AI (LIME)</h2>
+        <p>To ensure transparency ("White Box AI"), we utilized <strong>LIME (Local Interpretable Model-agnostic Explanations)</strong>. This technique highlights exactly which words in a message triggered the spam detection.</p>
+        
+        <!-- CHART 3: LIME -->
+        <div class="image-box">
+            <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 2. LIME Analysis of Spam vs. Safe Messages</p>
+            <img src="lime_analysis.jpg" alt="LIME visualization showing weighted words" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
+        </div>
+
+        <hr class="divider">
+
+        <!-- AUTHOR -->
+        <h2>👨‍💻 Developer & Purpose</h2>
+        <p>Developed by <strong>Lyndon R</strong> as a Learning Project.</p>
+        <p>This project serves as a comprehensive learning experience in an AI / ML Development lifecycle - covering data cleaning, model training, API development, and cloud deployment. It also demonstrates a practical, scalable solution to a real-world cybersecurity problem.</p>
+
+        <br>
+        <div style="text-align: center;">
+            <a href="index.html" id="analyzeBtn" style="text-decoration: none; display: inline-block; width: auto; padding: 15px 40px;">Try the Scanner</a>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
