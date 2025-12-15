@@ -6,15 +6,87 @@ const API_BASE_URL = IS_LOCAL
 console.log(`🔌 Connected to: ${API_BASE_URL}`);
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const themeBtn = document.querySelector('.theme-btn');
+    const root = document.documentElement;
+
+    // 1. Determine the correct starting theme
+    // Priority: 1. Saved Preference -> 2. System Settings -> 3. Default Light
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    let currentTheme = savedTheme || (systemDark ? 'dark' : 'light');
+
+    // 2. Apply the theme AND the icon immediately
+    applyTheme(currentTheme);
+
+    // 3. Listen for the toggle click
+    themeBtn.addEventListener('click', () => {
+        // Swap the theme string
+        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(currentTheme);
+    });
+
+    // --- Helper Function ---
+    function applyTheme(theme) {
+        // A. Update the CSS Data Attribute
+        root.setAttribute('data-theme', theme);
+        
+        // B. Save to memory
+        localStorage.setItem('theme', theme);
+        
+        // C. FORCE THE ICON TO UPDATE
+        // If Dark Mode is ON, show the Sun ☀️ (to switch back to light)
+        // If Light Mode is ON, show the Moon 🌙 (to switch to dark)
+        themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+});
 
 
 // THEME & TABS
-function toggleTheme() {
-    const body = document.body;
-    const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    body.setAttribute("data-theme", newTheme);
-    document.getElementById("themeToggle").innerText = newTheme === "dark" ? "☀️" : "🌙";
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // --- THEME LOGIC ---
+    const themeBtn = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // 1. Determine startup theme
+    // Priority: Saved LocalStorage > System Preference > Default Light
+    const savedTheme = localStorage.getItem('theme');
+    let currentTheme = savedTheme || (systemQuery.matches ? 'dark' : 'light');
+
+    // 2. Apply immediately
+    applyTheme(currentTheme);
+
+    // 3. Button Click Listener
+    themeBtn.addEventListener('click', () => {
+        // Toggle the theme
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    });
+
+    // 4. System Change Listener (Optional but recommended)
+    // If the user changes their OS theme while the tab is open, update automatically
+    // ONLY IF they haven't manually set a preference yet.
+    systemQuery.addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            const newSystemTheme = e.matches ? 'dark' : 'light';
+            applyTheme(newSystemTheme);
+        }
+    });
+
+    // Helper Function
+    function applyTheme(theme) {
+        currentTheme = theme; // Update local variable
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Update Icon: 
+        // If Dark, show Sun (to switch to light)
+        // If Light, show Moon (to switch to dark)
+        themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+});
 
 function switchTab(mode) {
     const textSection = document.getElementById("textSection");
