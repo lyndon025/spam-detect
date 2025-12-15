@@ -153,7 +153,7 @@ async function analyzeMessage() {
         aiSection.classList.remove("hidden");
         document.getElementById("aiResult").classList.add("hidden"); // Reset previous AI text
         document.getElementById("askAiBtn").disabled = false;
-        document.getElementById("askAiBtn").innerText = "🤖 Ask AI Assistant for a Second Opinion";
+        document.getElementById("askAiBtn").innerText = "🤖 Ask Google Gemini for Analysis";
 
         // 4. RENDER LIME CHART
         if (data.lime_data && data.lime_data.length > 0) {
