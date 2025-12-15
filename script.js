@@ -114,11 +114,40 @@ async function analyzeMessage() {
         }
         conf.innerText = `Confidence: ${data.confidence}%`;
 
-        // 2. LINK WARNING
-        if (data.has_link) {
-            linkCard.classList.remove("hidden");
-            linkCard.classList.add("visible");
+               // B. LINK DETECTION OVERRIDE
+        if (data.has_link === true) {
+            console.log("🔗 Link detected by Backend!");
+
+            // Case 1: If the AI said it was SAFE (Green), we must OVERRIDE it
+            if (resultCard.classList.contains("safe")) {
+                
+                // 1. Force visual change from Green -> Orange
+                resultCard.classList.remove("safe");
+                resultCard.classList.add("caution");
+                
+                // 2. Update Icon & Title
+                icon.innerText = "⚠️"; 
+                title.innerText = "Caution: Link Detected";
+                
+                // 3. Strikethrough the original "Likely Safe" message
+                // We keep the original text but cross it out, then add the warning
+                details.innerHTML = `
+                    <span style="text-decoration: line-through; opacity: 0.7;">This looks like a standard notification.</span>
+                    <br><br>
+                    <strong>HOWEVER:</strong> A link was detected. Even safe-looking messages can be dangerous if they contain links. Verify the sender.
+                `;
+            }
+            
+            // Case 2: If it was already Caution/Danger, just append a note
+            else {
+                details.innerHTML += "<br><br><strong>⚠️ Note:</strong> Contains a clickable link. Be careful.";
+            }
+
+            // Show the separate red Link Warning card too
+            linkWarningCard.classList.remove("hidden");
+            linkWarningCard.classList.add("visible");
         }
+
 
         // 3. SHOW SECOND OPINION BUTTON
         aiSection.classList.remove("hidden");
