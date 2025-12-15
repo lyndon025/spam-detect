@@ -1,113 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spam Detect PH</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-</head>
-<body>
+    <link rel="icon" type="image/svg+xml" href="logo.svg" />
+    <meta property="og:title" content="Spam Detect PH - Protect Yourself" />
+    <meta
+      property="og:description"
+      content="Free spam detection tool for the Philippines. Check SMS and numbers instantly."
+    />
+    <meta
+      property="og:image"
+      content="https://yourwebsite.com/social-logo.png"
+    />
+    <meta property="og:url" content="https://yourwebsite.com" />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <header class="navbar">
+      <a href="index.html" style="text-decoration: none; color: inherit">
 
-
-<header class="navbar">
-    <a href="index.html" style="text-decoration: none; color: inherit;"> <!-- Add this link -->
         <div class="logo-group">
-            <span class="logo-icon">🛡️</span> 
-            <span class="logo-text">Spam Detect PH</span>
+          <img src="logo.svg" alt="Spam Detect PH Logo" class="logo-icon" />
+          <span class="logo-text">Spam Detect PH</span>
         </div>
-    </a>
-    <div class="nav-links">
+      </a>
+      <div class="nav-links">
         <a href="about.html" class="nav-item">About</a>
-        <button id="themeToggle" class="nav-item theme-btn" onclick="toggleTheme()">🌙</button>
-    </div>
-</header>
-
+        <button
+          id="themeToggle"
+          class="nav-item theme-btn"
+          onclick="toggleTheme()"
+        >
+          🌙
+        </button>
+      </div>
+    </header>
 
     <main class="container">
-        <h1 class="title">SMS Scanner</h1>
-        <p class="subtitle">Detect scams, spam, and ads.</p>
+      <h1 class="title">SMS Scanner</h1>
+      <p class="subtitle">Detect scams, spam, and ads.</p>
 
-        <!-- INPUT TABS -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('text')">✍️ Paste Text</button>
-            <button class="tab-btn" onclick="switchTab('photo')">📷 Image Scan</button>
+      <!-- INPUT TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('text')">
+          ✍️ Paste Text
+        </button>
+        <button class="tab-btn" onclick="switchTab('photo')">
+          📷 Image Scan
+        </button>
+      </div>
+
+      <!-- TEXT MODE -->
+      <div id="textSection" class="input-section">
+        <textarea id="smsInput" placeholder="Paste message here..."></textarea>
+      </div>
+
+      <!-- PHOTO MODE -->
+      <div id="photoSection" class="input-section hidden">
+        <div
+          class="upload-area"
+          id="dropZone"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          <div class="upload-icon">📂</div>
+          <h3>Tap to Select Screenshot</h3>
+          <p class="small-text">
+            We extract text from the image. No data is stored.
+          </p>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            onchange="handleImageUpload(event)"
+            hidden
+          />
         </div>
+        <p id="ocrStatus" class="status-text hidden">
+          ⏳ Extraction in progress...
+        </p>
+      </div>
 
-        <!-- TEXT MODE -->
-        <div id="textSection" class="input-section">
-            <textarea id="smsInput" placeholder="Paste message here..."></textarea>
+      <!-- ANALYZE BTN -->
+      <button id="analyzeBtn" onclick="analyzeMessage()">
+        🚀 Analyze Message
+      </button>
+
+      <div id="loading" class="hidden">
+        Thinking... 🤔 It might take up to a minute
+      </div>
+
+      <!-- MAIN RESULTS -->
+      <div id="resultCard" class="result-card hidden">
+        <div id="icon" class="status-icon"></div>
+        <h2 id="resultTitle"></h2>
+        <p id="details"></p>
+        <p id="confidenceScore" class="confidence-text"></p>
+      </div>
+
+      <!-- LINK WARNING (Separate) -->
+      <div
+        id="linkWarningCard"
+        class="result-card danger hidden"
+        style="margin-top: 10px"
+      >
+        <div class="status-icon">🔗</div>
+        <h2>Link Detected</h2>
+        <p>
+          This message contains a clickable link.
+          <strong>Do not click</strong> unless you are 100% sure who personally
+          sent it.
+        </p>
+        <p>Philippine Companies and Telecoms will NEVER send you links</p>
+      </div>
+
+      <!-- SECOND OPINION (GEN AI) -->
+      <div id="aiSection" class="hidden" style="margin-top: 20px">
+        <button id="askAiBtn" class="secondary-btn" onclick="askGemini()">
+          🤖 Ask Google Gemini for Analysis
+        </button>
+        <div id="aiResult" class="ai-box hidden">
+          <strong>Gemini Analysis:</strong>
+          <p id="aiText">Loading...</p>
         </div>
+      </div>
 
-        <!-- PHOTO MODE -->
-        <div id="photoSection" class="input-section hidden">
-            <div class="upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                <div class="upload-icon">📂</div>
-                <h3>Tap to Select Screenshot</h3>
-                <p class="small-text">We extract text from the image. No data is stored.</p>
-                <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)" hidden>
-            </div>
-            <p id="ocrStatus" class="status-text hidden">⏳ Extraction in progress...</p>
+      <!-- TECHNICAL DETAILS DROPDOWN -->
+      <details id="limeSection" class="tech-details hidden">
+        <!-- This summary acts as the button -->
+        <summary class="tech-btn">
+          Show Technical Details & Explainability
+        </summary>
+
+        <div class="tech-content">
+          <div class="tech-info-grid">
+            <p><strong>Model:</strong> MLP (Neural Network)</p>
+            <p><strong>Vectorizer:</strong> TF-IDF</p>
+            <p>
+              <strong>Explainability:</strong> LIME (Local Interpretable
+              Model-agnostic Explanations)
+            </p>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0" />
+
+          <p class="small-note">
+            <strong>Top Contributing Features:</strong><br />
+            Red bars indicate words that pushed the model toward "Spam". Green
+            bars indicate "Safe" signals.
+          </p>
+
+          <div id="limeChart" class="lime-container"></div>
         </div>
-
-        <!-- ANALYZE BTN -->
-        <button id="analyzeBtn" onclick="analyzeMessage()">🚀 Analyze Message</button>
-
-        <div id="loading" class="hidden">Thinking... 🤔 It might take up to a minute</div>
-
-        <!-- MAIN RESULTS -->
-        <div id="resultCard" class="result-card hidden">
-            <div id="icon" class="status-icon"></div>
-            <h2 id="resultTitle"></h2>
-            <p id="details"></p>
-            <p id="confidenceScore" class="confidence-text"></p>
-        </div>
-
-        <!-- LINK WARNING (Separate) -->
-        <div id="linkWarningCard" class="result-card danger hidden" style="margin-top: 10px;">
-            <div class="status-icon">🔗</div>
-            <h2>Link Detected</h2>
-            <p>This message contains a clickable link. <strong>Do not click</strong> unless you are 100% sure who personally sent it.</p>
-            <p>Philippine Companies and Telecoms will NEVER send you links </p>
-        </div>
-
- <!-- SECOND OPINION (GEN AI) -->
-        <div id="aiSection" class="hidden" style="margin-top: 20px;">
-            <button id="askAiBtn" class="secondary-btn" onclick="askGemini()">
-                🤖 Ask Google Gemini for Analysis
-            </button>
-            <div id="aiResult" class="ai-box hidden">
-                <strong>Gemini Analysis:</strong>
-                <p id="aiText">Loading...</p>
-            </div>
-        </div>
-
-               <!-- TECHNICAL DETAILS DROPDOWN -->
-        <details id="limeSection" class="tech-details hidden">
-            <!-- This summary acts as the button -->
-            <summary class="tech-btn">
-                Show Technical Details & Explainability
-            </summary>
-            
-            <div class="tech-content">
-                <div class="tech-info-grid">
-                    <p><strong>Model:</strong> MLP (Neural Network)</p>
-                    <p><strong>Vectorizer:</strong> TF-IDF</p>
-                    <p><strong>Explainability:</strong> LIME (Local Interpretable Model-agnostic Explanations)</p>
-                </div>
-                
-                <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-                
-                <p class="small-note"><strong>Top Contributing Features:</strong><br>
-                Red bars indicate words that pushed the model toward "Spam". Green bars indicate "Safe" signals.</p>
-                
-                <div id="limeChart" class="lime-container"></div>
-            </div>
-        </details>
-
-
+      </details>
     </main>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

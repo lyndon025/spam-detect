@@ -1,0 +1,13 @@
+<svg class="logo-svg" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Blue Part (Top Left) -->
+    <path d="M12 2L4 5V12C4 15 6 18 8 20L12 22V2Z" fill="#0038A8"/> 
+    
+    <!-- Red Part (Top Right) -->
+    <path d="M12 2L20 5V12C20 15 18 18 16 20L12 22V2Z" fill="#CE1126"/>
+    
+    <!-- White Overlay/Sun Center -->
+    <circle cx="12" cy="10" r="3.5" fill="white"/>
+    
+    <!-- Yellow Sun Rays (Simplified) -->
+    <path d="M12 5V7M12 13V15M7 10H9M15 10H17" stroke="#FCD116" stroke-width="2" stroke-linecap="round"/>
+</svg>
