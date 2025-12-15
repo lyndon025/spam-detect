@@ -15,4 +15,4 @@ The official user interface for the **Spam Detect PH** project. A clean, mobile-
 - **Deployment:** Vercel.
 
 ## 🔗 Live Demo
-(Link will be added here after Vercel deployment)
+https://spam-detectph.vercel.app/
