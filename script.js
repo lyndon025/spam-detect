@@ -1,3 +1,10 @@
+const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const API_BASE_URL = IS_LOCAL 
+    ? "http://localhost:5000" 
+    : "https://spam-detect-backend.onrender.com"; // <--- PASTE YOUR RENDER URL HERE
+
+console.log(`🔌 Connected to: ${API_BASE_URL}`);
+
 // THEME & TABS
 function toggleTheme() {
     const body = document.body;
@@ -71,7 +78,7 @@ async function analyzeMessage() {
     loading.classList.remove("hidden");
 
     try {
-        const response = await fetch("http://localhost:5000/predict", {
+        const response = await fetch(`${API_BASE_URL}/predict`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: input })
@@ -145,7 +152,7 @@ async function askGemini() {
     resultText.innerHTML = "<em>Thinking...</em>"; // Use innerHTML for styling
 
     try {
-        const response = await fetch("http://localhost:5000/ask-gemini", {
+        const response = await fetch(`${API_BASE_URL}/ask-gemini`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: input })
