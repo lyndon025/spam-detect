@@ -37,12 +37,12 @@ function initApp() {
             currentTheme = theme;
             root.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
-
+            
             // Update Icon
             themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
         }
     }
-
+    
     // Setup Analyze Button Listener (Home Page Only)
     setupAnalyzeListener();
 }
@@ -239,7 +239,8 @@ async function analyzeMessage() {
         // 4. RENDER LIME CHART
         if (data.lime_data && data.lime_data.length > 0 && limeSection) {
             limeSection.classList.remove("hidden");
-            renderLimeChart(data.lime_data);
+            // PASS CATEGORY TO FIX COLOR LOGIC
+            renderLimeChart(data.lime_data, data.category);
         }
 
     } catch (error) {
@@ -288,7 +289,8 @@ async function askGemini() {
 }
 
 // LIME VISUALIZATION
-function renderLimeChart(features) {
+// Added category parameter to determine if Positive Weight = Safe or Spam
+function renderLimeChart(features, category) {
     const container = document.getElementById("limeChart");
     if(!container) return; 
 
@@ -300,7 +302,7 @@ function renderLimeChart(features) {
     features.forEach(([word, weight]) => {
         const row = document.createElement("div");
         row.className = "lime-row";
-
+        
         const label = document.createElement("span");
         label.className = "lime-label";
         label.innerText = word;
@@ -309,29 +311,47 @@ function renderLimeChart(features) {
         barContainer.className = "lime-bar-container";
 
         const bar = document.createElement("div");
-        const isSpamIndicator = weight > 0; 
-        bar.className = isSpamIndicator ? "lime-bar danger-bar" : "lime-bar safe-bar";
 
+        // --- NEW LOGIC START ---
+        // If category is 'safe', then positive weights (supporting 'safe') should be GREEN.
+        // If category is 'danger', then positive weights (supporting 'danger') should be RED.
+        
+        let isDanger = false;
+        
+        if (category === 'safe') {
+            // Explaining "Safe"
+            // weight > 0 (supports Safe) -> Green (isDanger=false)
+            // weight < 0 (opposes Safe) -> Red   (isDanger=true)
+            if (weight < 0) isDanger = true;
+        } else {
+            // Explaining "Danger" / "Spam"
+            // weight > 0 (supports Danger) -> Red (isDanger=true)
+            // weight < 0 (opposes Danger) -> Green (isDanger=false)
+            if (weight > 0) isDanger = true;
+        }
+        
+        bar.className = isDanger ? "lime-bar danger-bar" : "lime-bar safe-bar";
+        // --- NEW LOGIC END ---
+        
         let widthPercentage = (Math.abs(weight) / maxWeight) * 100;
         if (widthPercentage < 5) widthPercentage = 5; 
-
+        
         bar.style.width = `${widthPercentage}%`;
         bar.title = `Weight: ${weight.toFixed(4)}`;
 
         barContainer.appendChild(bar);
-
-        // --- NEW: Value Number ---
+        
+        // Value Number
         const valueSpan = document.createElement("span");
         valueSpan.innerText = weight.toFixed(4);
         valueSpan.style.marginLeft = "10px";
         valueSpan.style.fontSize = "0.85em"; 
         valueSpan.style.minWidth = "50px";
         valueSpan.style.textAlign = "right";
-        // -------------------------
 
         row.appendChild(label);
         row.appendChild(barContainer);
-        row.appendChild(valueSpan); // Append value at the end
+        row.appendChild(valueSpan); 
         container.appendChild(row);
     });
 }
