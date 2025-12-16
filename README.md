@@ -14,5 +14,21 @@ The official user interface for the **Spam Detect PH** project. A clean, mobile-
 - **Libraries:** Tesseract.js (OCR), Google Fonts (Segoe UI).
 - **Deployment:** Vercel.
 
+## 🚀 Deployment Guide (Vercel)
+
+This frontend is static (HTML/JS/CSS) and can be deployed for free on Vercel.
+
+1.  **Push to GitHub:** Ensure your code is in a GitHub repository.
+2.  **Login to Vercel:** Go to [Vercel.com](https://vercel.com) and sign in.
+3.  **Add New Project:** Click "Add New..." > "Project" and import your GitHub repo.
+4.  **Configure Build:**
+    *   **Framework Preset:** Other (or leave default).
+    *   **Root Directory:** `./` (default).
+    *   **Build Command:** (None needed).
+    *   **Output Directory:** (None needed).
+5.  **Deploy:** Click **Deploy**. Vercel will build your site and give you a live URL.
+
+**Note:** Ensure your `script.js` points to your live backend URL (e.g., Render) instead of `localhost` when deploying.
+
 ## 🔗 Live Demo
 https://spam-detectph.vercel.app/
