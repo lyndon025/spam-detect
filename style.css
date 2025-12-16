@@ -92,7 +92,7 @@ body {
     box-sizing: border-box;
     position: sticky;
     top: 0;
-    z-index: 1000;
+ z-index: 9999; 
 }
 
 .logo-group {
@@ -447,4 +447,10 @@ table td, table th { color: var(--text-color); }
 /* Apply to main container or hero section */
 .hero, .container {
     animation: fadeInUp 1s ease-out forwards;
+}
+
+.about-container {
+    padding-top: 20px; /* Gives space if navbar is sticky */
+    position: relative;
+    z-index: 1; /* Lower than navbar */
 }

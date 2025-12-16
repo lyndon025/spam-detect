@@ -24,106 +24,109 @@
 <body>
 
     <!-- NAVBAR -->
-<header class="navbar">
-    <a href="index.html" style="text-decoration: none; color: inherit;"> <!-- Add this link -->
-        <div class="logo-group">
-<img src="images/logo.svg" alt="Spam Detect PH Logo" class="logo-icon">
-            <span class="logo-text">Spam Detect PH</span>
-        </div>
-    </a>
-    <div class="nav-links">
-        <a href="index.html" class="nav-item">Scanner</a>
-        <button id="themeToggle" class="nav-item theme-btn">🌙</button>
-    </div>
-</header>
-
-    <main class="container" style="max-width: 800px; text-align: left;">
-        
-        <!-- INTRO -->
-        <h1 class="title">About the Project</h1>
-        <p><strong>Spam Detect PH</strong> is a Machine Learning-powered web application designed to help with the rising tide of SMS spam, scams, and smishing attacks in the Philippines. It uses traditional Neural Networks with a bonus modern GenAI feature to provide deep insights into local SMS threats.</p>
-
-        <hr class="divider">
-
-        <!-- TECH STACK -->
-        <h2>🛠️ Technical Architecture</h2>
-        <div class="tech-info-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-                <h3>Frontend</h3>
-                <ul style="padding-left: 20px;">
-                    <li>Vanilla JavaScript & HTML5</li>
-                    <li>OCR via <strong>Tesseract.js</strong> (Client-side, does not store Images)</li>
-                    <li>Hosted on <strong>Vercel</strong></li>
-                </ul>
+    <header class="navbar">
+        <a href="index.html" style="text-decoration: none; color: inherit;">
+            <div class="logo-group">
+                <img src="images/logo.svg" alt="Spam Detect PH Logo" class="logo-icon">
+                <span class="logo-text">Spam Detect PH</span>
             </div>
-            <div>
-                <h3>Backend</h3>
-                <ul style="padding-left: 20px;">
-                    <li>Python (Flask API)</li>
-                    <li><strong>Scikit-Learn</strong> (MLP Inference)</li>
-                    <li><strong>Google Gemini 2.5 Flash</strong> (Generative AI)</li>
-                    <li>Hosted on <strong>Render</strong></li>
-                </ul>
-            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Scanner</a>
+            <button class="nav-item theme-btn">🌙</button> <!-- Removed ID, kept class -->
         </div>
-        <hr class="divider">
+    </header>
 
-
-        <h2>Note on Performance: </h2>
-        The free tier of Render "sleeps" after 15 minutes of inactivity. The first request to a sleeping server will experience a "cold start" delay of 30-50 seconds while the service wakes up. Subsequent requests are instantaneous.
-
-
-        <hr class="divider">
-
-        <!-- DATASET ATTRIBUTION -->
-        <h2>📊 Dataset Source</h2>
-        <p>This model was trained using the <strong>Tagalog SMS Dataset</strong> provided by <em>onzero0</em> on Kaggle. This dataset was crucial for ensuring the model understands the specific nuances of "Taglish" (Tagalog-English code-switching) commonly used in The Philippines.</p>
-        <p>
-            🔗 <a href="https://www.kaggle.com/datasets/onzero0/tagalog-sms" target="_blank" style="color: var(--primary); font-weight: bold;">View Dataset on Kaggle</a>
-        </p>
-
-        <hr class="divider">
-
-        <!-- ML MODEL & EXPERIMENTS -->
-        <h2>🧠 Model Selection & Experiments</h2>
-        <p>The core system runs on a <strong>Multi-Layer Perceptron (MLP)</strong>. I selected this model after extensive benchmarking against 8 other algorithms (including Random Forest, SVM, and Naive Bayes) and advanced Transformers (DistilBERT).</p>
-
-        <!-- CHART 1: MODEL COMPARISON -->
-        <div class="image-box">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 1. Model Accuracy Leaderboard</p>
-            <img src="images/model_comparison.jpg" alt="Bar chart showing MLP having highest accuracy" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
-        </div>
-
-        <p><strong>Why not DistilBERT?</strong></p>
-        <p>While I trained a DistilBERT (Transformer) model, I found that <strong>MLP (98.2%)</strong> offered comparable accuracy to DistilBERT (~95%) but with significantly faster inference times and lower computational cost, making it ideal for a free web deployment.</p>
-
-        <hr class="divider">
-
-        <!-- EXPLAINABILITY -->
-        <h2>🔍 Explainable AI (LIME)</h2>
-        <p>To ensure transparency ("White Box AI"), I utilized <strong>LIME (Local Interpretable Model-agnostic Explanations)</strong>. This technique highlights exactly which words in a message triggered the spam detection.</p>
+    <!-- WRAPPER TO PUSH CONTENT DOWN -->
+    <div style="padding-top: 80px;"> <!-- Adjust 80px if navbar is taller -->
         
-        <!-- CHART 2: LIME -->
-        <div class="image-box">
-            <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 2. LIME Analysis of Spam vs. Safe Messages</p>
-            <img src="images/lime_analysis.jpg" alt="LIME visualization showing weighted words" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
-        </div>
+        <main class="container" style="max-width: 800px; text-align: left;">
+            
+            <!-- INTRO -->
+            <h1 class="title">About the Project</h1>
+            <p><strong>Spam Detect PH</strong> is a Machine Learning-powered web application designed to help with the rising tide of SMS spam, scams, and smishing attacks in the Philippines. It uses traditional Neural Networks with a bonus modern GenAI feature to provide deep insights into local SMS threats.</p>
 
-        <hr class="divider">
+            <hr class="divider">
 
+            <!-- TECH STACK -->
+            <h2>🛠️ Technical Architecture</h2>
+            <div class="tech-info-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <h3>Frontend</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Vanilla JavaScript & HTML5</li>
+                        <li>OCR via <strong>Tesseract.js</strong> (Client-side, does not store Images)</li>
+                        <li>Hosted on <strong>Vercel</strong></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Backend</h3>
+                    <ul style="padding-left: 20px;">
+                        <li>Python (Flask API)</li>
+                        <li><strong>Scikit-Learn</strong> (MLP Inference)</li>
+                        <li><strong>Google Gemini 2.5 Flash</strong> (Generative AI)</li>
+                        <li>Hosted on <strong>Render</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="divider">
 
-        <!-- AUTHOR -->
-        <h2>👨‍💻 Developer & Purpose</h2>
-        <p>Developed by <strong>Lyndon R.</strong> as a Learning Project.</p>
-        <p>This project serves as a comprehensive learning experience in the AI / ML Development lifecycle - covering data cleaning, model training, API development, and cloud deployment. It aims to demonstrate a practical, scalable solution to a real-world cybersecurity problem.</p>
+            <h2>Note on Performance: </h2>
+            <p>The free tier of Render "sleeps" after 15 minutes of inactivity. The first request to a sleeping server will experience a "cold start" delay of 30-50 seconds while the service wakes up. Subsequent requests are instantaneous.</p>
 
-        <br>
-        <div style="text-align: center;">
-            <a href="index.html" id="analyzeBtn" style="text-decoration: none; display: inline-block; width: auto; padding: 15px 40px;">Try the Scanner</a>
-        </div>
+            <hr class="divider">
 
-    </main>
+            <!-- DATASET ATTRIBUTION -->
+            <h2>📊 Dataset Source</h2>
+            <p>This model was trained using the <strong>Tagalog SMS Dataset</strong> provided by <em>onzero0</em> on Kaggle. This dataset was crucial for ensuring the model understands the specific nuances of "Taglish" (Tagalog-English code-switching) commonly used in The Philippines.</p>
+            <p>
+                🔗 <a href="https://www.kaggle.com/datasets/onzero0/tagalog-sms" target="_blank" style="color: var(--primary); font-weight: bold;">View Dataset on Kaggle</a>
+            </p>
 
-    <script src="script.js"></script>
+            <hr class="divider">
+
+            <!-- ML MODEL & EXPERIMENTS -->
+            <h2>🧠 Model Selection & Experiments</h2>
+            <p>The core system runs on a <strong>Multi-Layer Perceptron (MLP)</strong>. I selected this model after extensive benchmarking against 8 other algorithms (including Random Forest, SVM, and Naive Bayes) and advanced Transformers (DistilBERT).</p>
+
+            <!-- CHART 1: MODEL COMPARISON -->
+            <div class="image-box">
+                <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 1. Model Accuracy Leaderboard</p>
+                <img src="images/model_comparison.jpg" alt="Bar chart showing MLP having highest accuracy" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+
+            <p><strong>Why not DistilBERT?</strong></p>
+            <p>While I trained a DistilBERT (Transformer) model, I found that <strong>MLP (98.2%)</strong> offered comparable accuracy to DistilBERT (~95%) but with significantly faster inference times and lower computational cost, making it ideal for a free web deployment.</p>
+
+            <hr class="divider">
+
+            <!-- EXPLAINABILITY -->
+            <h2>🔍 Explainable AI (LIME)</h2>
+            <p>To ensure transparency ("White Box AI"), I utilized <strong>LIME (Local Interpretable Model-agnostic Explanations)</strong>. This technique highlights exactly which words in a message triggered the spam detection.</p>
+            
+            <!-- CHART 2: LIME -->
+            <div class="image-box">
+                <p style="text-align: center; font-weight: bold; margin-bottom: 10px;">Fig 2. LIME Analysis of Spam vs. Safe Messages</p>
+                <img src="images/lime_analysis.jpg" alt="LIME visualization showing weighted words" style="width: 100%; border-radius: 8px; border: 1px solid var(--border-color);">
+            </div>
+
+            <hr class="divider">
+
+            <!-- AUTHOR -->
+            <h2>👨‍💻 Developer & Purpose</h2>
+            <p>Developed by <strong>Lyndon R.</strong> as a Learning Project.</p>
+            <p>This project serves as a comprehensive learning experience in the AI / ML Development lifecycle - covering data cleaning, model training, API development, and cloud deployment. It aims to demonstrate a practical, scalable solution to a real-world cybersecurity problem.</p>
+
+            <br>
+            <div style="text-align: center;">
+                <!-- IMPORTANT: Changed ID to CLASS so it doesn't confuse the script -->
+                <a href="index.html" class="nav-item" style="text-decoration: none; display: inline-block; background-color: var(--primary); color: white; border-radius: 8px; font-weight: bold; padding: 15px 40px;">Try the Scanner</a>
+            </div>
+
+        </main>
+    </div> <!-- End Wrapper -->
+
+    <script src="scripts/script.js"></script>
 </body>
+
 </html>
