@@ -2,9 +2,9 @@
    CONFIGURATION
    ========================================= */
 const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-const API_BASE_URL = IS_LOCAL 
-    ? "http://localhost:5000" 
-    : "https://spam-detect-backend.onrender.com"; 
+const API_BASE_URL = IS_LOCAL
+    ? "http://localhost:5000"
+    : "https://spam-detect-backend.fly.dev"; // Fly.io is default
 
 console.log(`🔌 Connected to: ${API_BASE_URL}`);
 
@@ -37,12 +37,12 @@ function initApp() {
             currentTheme = theme;
             root.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
-            
+
             // Update Icon
             themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
         }
     }
-    
+
     // Setup Analyze Button Listener (Home Page Only)
     setupAnalyzeListener();
 }
@@ -64,7 +64,7 @@ function setupAnalyzeListener() {
     if (analyzeBtn) {
         analyzeBtn.addEventListener('click', analyzeMessage);
     }
-    
+
     const askAiBtn = document.getElementById('askAiBtn');
     if (askAiBtn) {
         askAiBtn.addEventListener('click', askGemini);
@@ -82,13 +82,13 @@ function switchTab(mode) {
     if (mode === 'text') {
         textSection.classList.remove("hidden");
         photoSection.classList.add("hidden");
-        if(tabs[0]) tabs[0].classList.add("active");
-        if(tabs[1]) tabs[1].classList.remove("active");
+        if (tabs[0]) tabs[0].classList.add("active");
+        if (tabs[1]) tabs[1].classList.remove("active");
     } else {
         textSection.classList.add("hidden");
         photoSection.classList.remove("hidden");
-        if(tabs[0]) tabs[0].classList.remove("active");
-        if(tabs[1]) tabs[1].classList.add("active");
+        if (tabs[0]) tabs[0].classList.remove("active");
+        if (tabs[1]) tabs[1].classList.add("active");
     }
 }
 
@@ -101,7 +101,7 @@ function handleImageUpload(event) {
     const textArea = document.getElementById("smsInput");
 
     if (!statusText || !textArea) return; // Safety check for About page
-    
+
     statusText.classList.remove("hidden");
     statusText.innerText = "⏳ Extracting text...";
 
@@ -112,51 +112,51 @@ function handleImageUpload(event) {
     }
 
     Tesseract.recognize(file, 'eng')
-    .then(({ data: { text } }) => {
-        statusText.innerText = "✅ Done!";
-        textArea.value = text;
-        setTimeout(() => {
-            switchTab('text');
-            statusText.classList.add("hidden");
-        }, 1000);
-    }).catch(err => {
-        console.error(err);
-        statusText.innerText = "❌ Failed to read image.";
-    });
+        .then(({ data: { text } }) => {
+            statusText.innerText = "✅ Done!";
+            textArea.value = text;
+            setTimeout(() => {
+                switchTab('text');
+                statusText.classList.add("hidden");
+            }, 1000);
+        }).catch(err => {
+            console.error(err);
+            statusText.innerText = "❌ Failed to read image.";
+        });
 }
 
 // MAIN ANALYZE FUNCTION
 async function analyzeMessage() {
     const inputField = document.getElementById("smsInput");
-    
+
     // Safety Check: If input doesn't exist, stop (prevents crash on About page)
     if (!inputField) return;
 
     const input = inputField.value;
     const loading = document.getElementById("loading");
     const loadingText = document.querySelector("#loading p");
-    
+
     // UI Elements
     const resultCard = document.getElementById("resultCard");
     const linkCard = document.getElementById("linkWarningCard");
     const aiSection = document.getElementById("aiSection");
     const limeSection = document.getElementById("limeSection");
-    
+
     // Reset
-    if(resultCard) resultCard.className = "result-card hidden"; 
-    if(linkCard) linkCard.classList.add("hidden"); 
-    if(aiSection) aiSection.classList.add("hidden");
-    if(limeSection) limeSection.classList.add("hidden");
+    if (resultCard) resultCard.className = "result-card hidden";
+    if (linkCard) linkCard.classList.add("hidden");
+    if (aiSection) aiSection.classList.add("hidden");
+    if (limeSection) limeSection.classList.add("hidden");
 
     if (!input.trim()) { alert("Enter text first!"); return; }
 
-    if(loading) loading.classList.remove("hidden");
-    if(loadingText) loadingText.innerText = "Analyzing...";
+    if (loading) loading.classList.remove("hidden");
+    if (loadingText) loadingText.innerText = "Analyzing...";
 
     // Timeout for free Render server waking up
     const slowServerTimer = setTimeout(() => {
-        if(loadingText) {
-            loadingText.innerHTML = "⏳ Waking up free server...<br><span style='font-size:0.8em'>(This may take up to 50 seconds)</span>";
+        if (loadingText) {
+            loadingText.innerHTML = "⏳ Waking up server, it might take up to 2 minutes, thank you for your patience...";
         }
     }, 3000);
 
@@ -166,18 +166,18 @@ async function analyzeMessage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: input })
         });
-        
+
         clearTimeout(slowServerTimer);
         const data = await response.json();
-        
-        if(loading) loading.classList.add("hidden");
 
-        if(!resultCard) return;
+        if (loading) loading.classList.add("hidden");
+
+        if (!resultCard) return;
 
         // 1. SHOW AI JUDGMENT
         resultCard.classList.remove("hidden");
         resultCard.classList.add("visible");
-        
+
         const title = document.getElementById("resultTitle");
         const details = document.getElementById("details");
         const icon = document.getElementById("icon");
@@ -208,7 +208,7 @@ async function analyzeMessage() {
             if (resultCard.classList.contains("safe")) {
                 resultCard.classList.remove("safe");
                 resultCard.classList.add("caution");
-                icon.innerText = "⚠️"; 
+                icon.innerText = "⚠️";
                 title.innerText = "Caution: Link Detected";
                 details.innerHTML = `
                     <span style="text-decoration: line-through; opacity: 0.7;">This looks like a standard notification.</span>
@@ -219,18 +219,18 @@ async function analyzeMessage() {
                 details.innerHTML += "<br><br><strong>⚠️ Note:</strong> Contains a clickable link. Be careful.";
             }
 
-            if(linkCard) {
+            if (linkCard) {
                 linkCard.classList.remove("hidden");
                 linkCard.classList.add("visible");
             }
         }
 
         // 3. SHOW SECOND OPINION BUTTON
-        if(aiSection) {
+        if (aiSection) {
             aiSection.classList.remove("hidden");
             document.getElementById("aiResult").classList.add("hidden");
             const askBtn = document.getElementById("askAiBtn");
-            if(askBtn) {
+            if (askBtn) {
                 askBtn.disabled = false;
                 askBtn.innerText = "🤖 Ask Google Gemini for Analysis";
             }
@@ -246,7 +246,7 @@ async function analyzeMessage() {
     } catch (error) {
         clearTimeout(slowServerTimer);
         console.error(error);
-        if(loading) loading.classList.add("hidden");
+        if (loading) loading.classList.add("hidden");
         alert("Server Error: The backend might be sleeping or crashed.");
     }
 }
@@ -254,19 +254,19 @@ async function analyzeMessage() {
 // GEN AI CALL
 async function askGemini() {
     const inputField = document.getElementById("smsInput");
-    if(!inputField) return;
+    if (!inputField) return;
 
     const input = inputField.value;
     const btn = document.getElementById("askAiBtn");
     const resultBox = document.getElementById("aiResult");
     const resultText = document.getElementById("aiText");
-    
-    if(btn) {
+
+    if (btn) {
         btn.disabled = true;
         btn.innerText = "Consulting Gemini...";
     }
-    if(resultBox) resultBox.classList.remove("hidden");
-    if(resultText) resultText.innerHTML = "<em>Thinking...</em>"; 
+    if (resultBox) resultBox.classList.remove("hidden");
+    if (resultText) resultText.innerHTML = "<em>Thinking...</em>";
 
     try {
         const response = await fetch(`${API_BASE_URL}/ask-gemini`, {
@@ -275,14 +275,14 @@ async function askGemini() {
             body: JSON.stringify({ text: input })
         });
         const data = await response.json();
-        
-        if(resultText) resultText.innerHTML = parseMarkdown(data.analysis); 
-        
+
+        if (resultText) resultText.innerHTML = parseMarkdown(data.analysis);
+
     } catch (error) {
-        if(resultText) resultText.innerText = "Error contacting AI.";
+        if (resultText) resultText.innerText = "Error contacting AI.";
     }
-    
-    if(btn) {
+
+    if (btn) {
         btn.disabled = false;
         btn.innerText = "🤖 Ask Google Gemini for Analysis";
     }
@@ -292,9 +292,9 @@ async function askGemini() {
 // Added category parameter to determine if Positive Weight = Safe or Spam
 function renderLimeChart(features, category) {
     const container = document.getElementById("limeChart");
-    if(!container) return; 
+    if (!container) return;
 
-    container.innerHTML = ""; 
+    container.innerHTML = "";
 
     // Find the max weight to normalize bars
     const maxWeight = Math.max(...features.map(f => Math.abs(f[1])));
@@ -302,7 +302,7 @@ function renderLimeChart(features, category) {
     features.forEach(([word, weight]) => {
         const row = document.createElement("div");
         row.className = "lime-row";
-        
+
         const label = document.createElement("span");
         label.className = "lime-label";
         label.innerText = word;
@@ -315,9 +315,9 @@ function renderLimeChart(features, category) {
         // --- NEW LOGIC START ---
         // If category is 'safe', then positive weights (supporting 'safe') should be GREEN.
         // If category is 'danger', then positive weights (supporting 'danger') should be RED.
-        
+
         let isDanger = false;
-        
+
         if (category === 'safe') {
             // Explaining "Safe"
             // weight > 0 (supports Safe) -> Green (isDanger=false)
@@ -329,29 +329,29 @@ function renderLimeChart(features, category) {
             // weight < 0 (opposes Danger) -> Green (isDanger=false)
             if (weight > 0) isDanger = true;
         }
-        
+
         bar.className = isDanger ? "lime-bar danger-bar" : "lime-bar safe-bar";
         // --- NEW LOGIC END ---
-        
+
         let widthPercentage = (Math.abs(weight) / maxWeight) * 100;
-        if (widthPercentage < 5) widthPercentage = 5; 
-        
+        if (widthPercentage < 5) widthPercentage = 5;
+
         bar.style.width = `${widthPercentage}%`;
         bar.title = `Weight: ${weight.toFixed(4)}`;
 
         barContainer.appendChild(bar);
-        
+
         // Value Number
         const valueSpan = document.createElement("span");
         valueSpan.innerText = weight.toFixed(4);
         valueSpan.style.marginLeft = "10px";
-        valueSpan.style.fontSize = "0.85em"; 
+        valueSpan.style.fontSize = "0.85em";
         valueSpan.style.minWidth = "50px";
         valueSpan.style.textAlign = "right";
 
         row.appendChild(label);
         row.appendChild(barContainer);
-        row.appendChild(valueSpan); 
+        row.appendChild(valueSpan);
         container.appendChild(row);
     });
 }
