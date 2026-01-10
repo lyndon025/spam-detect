@@ -12,23 +12,24 @@ The official user interface for the **Spam Detect PH** project. A clean, mobile-
 ## 🛠️ Tech Stack
 - **Core:** HTML5, CSS3, Vanilla JavaScript.
 - **Libraries:** Tesseract.js (OCR), Google Fonts (Segoe UI).
-- **Deployment:** Vercel.
+- **Deployment:** Vercel (Frontend) + Fly.io (Backend)
 
-## 🚀 Deployment Guide (Vercel)
+## 🚀 Deployment Guide
 
-This frontend is static (HTML/JS/CSS) and can be deployed for free on Vercel.
+### Frontend (Vercel)
+The frontend is deployed on Vercel: [https://spam-detectph.vercel.app/](https://spam-detectph.vercel.app/)
 
-1.  **Push to GitHub:** Ensure your code is in a GitHub repository.
-2.  **Login to Vercel:** Go to [Vercel.com](https://vercel.com) and sign in.
-3.  **Add New Project:** Click "Add New..." > "Project" and import your GitHub repo.
-4.  **Configure Build:**
-    *   **Framework Preset:** Other (or leave default).
-    *   **Root Directory:** `./` (default).
-    *   **Build Command:** (None needed).
-    *   **Output Directory:** (None needed).
-5.  **Deploy:** Click **Deploy**. Vercel will build your site and give you a live URL.
+1. Push code to GitHub.
+2. Import repo in Vercel.
+3. Deploy (no special build settings needed for static config).
 
-**Note:** Ensure your `script.js` points to your live backend URL (e.g., Render) instead of `localhost` when deploying.
+### Backend Connection
+The frontend automatically connects to the backend:
+- **Local:** `http://localhost:5000`
+- **Production:** `https://spam-detect-backend.fly.dev`
+
+*Note: The backend is hosted on Fly.io with 24/7 uptime enabled to ensure fast response times.*
 
 ## 🔗 Live Demo
-https://spam-detectph.vercel.app/
+- **Frontend:** [https://spam-detectph.vercel.app/](https://spam-detectph.vercel.app/)
+- **Backend API:** [https://spam-detect-backend.fly.dev/](https://spam-detect-backend.fly.dev/)
