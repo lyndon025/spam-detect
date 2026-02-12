@@ -268,18 +268,37 @@ async function askGemini() {
     if (resultBox) resultBox.classList.remove("hidden");
     if (resultText) resultText.innerHTML = "<em>Thinking...</em>";
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 1 minute timeout
+
     try {
         const response = await fetch(`${API_BASE_URL}/ask-gemini`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: input })
+            body: JSON.stringify({ text: input }),
+            signal: controller.signal
         });
-        const data = await response.json();
 
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server Error: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
         if (resultText) resultText.innerHTML = parseMarkdown(data.analysis);
 
     } catch (error) {
-        if (resultText) resultText.innerText = "Error contacting AI.";
+        clearTimeout(timeoutId);
+        console.error("Gemini Error:", error);
+        if (resultText) {
+            if (error.name === 'AbortError') {
+                resultText.innerText = "Request timed out. The server might be busy or the model is still loading.";
+            } else {
+                resultText.innerText = `Error contacting AI: ${error.message}`;
+            }
+        }
     }
 
     if (btn) {
