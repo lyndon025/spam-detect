@@ -4,7 +4,7 @@
 const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 const API_BASE_URL = IS_LOCAL
     ? "http://localhost:5000"
-    : "https://spam-detect-backend.fly.dev"; // Fly.io is default
+    : "https://spam-detect-backend.onrender.com"; // Render is default (Migrated from Fly.io)
 
 console.log(`🔌 Connected to: ${API_BASE_URL}`);
 

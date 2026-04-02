@@ -12,7 +12,7 @@ The official user interface for the **Spam Detect PH** project. A clean, mobile-
 ## 🛠️ Tech Stack
 - **Core:** HTML5, CSS3, Vanilla JavaScript.
 - **Libraries:** Tesseract.js (OCR), Google Fonts (Segoe UI).
-- **Deployment:** Vercel (Frontend) + Fly.io (Backend)
+- **Deployment:** Vercel (Frontend) + Render (Backend)
 
 ## 🚀 Deployment Guide
 
@@ -26,10 +26,10 @@ The frontend is deployed on Vercel: [https://spam-detectph.vercel.app/](https://
 ### Backend Connection
 The frontend automatically connects to the backend:
 - **Local:** `http://localhost:5000`
-- **Production:** `https://spam-detect-backend.fly.dev`
+- **Production:** `https://spam-detect-backend.onrender.com`
 
-*Note: The backend is hosted on Fly.io with 24/7 uptime enabled to ensure fast response times.*
+*Note: The backend is hosted on Render (migrated from Fly.io).*
 
 ## 🔗 Live Demo
 - **Frontend:** [https://spam-detectph.vercel.app/](https://spam-detectph.vercel.app/)
-- **Backend API:** [https://spam-detect-backend.fly.dev/](https://spam-detect-backend.fly.dev/)
+- **Backend API:** [https://spam-detect-backend.onrender.com/](https://spam-detect-backend.onrender.com/)
